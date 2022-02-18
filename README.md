@@ -218,4 +218,4 @@ Have also seen https://localhost:7001/api/auth/okta/handler/frame and https://lo
 
 1. TAP GUI should now be available from the FQDN specificed in the base url setting in values.yaml, tap-gui.example.com 
 
-(/assets/tap-gui.png)
+![](/assets/tap-gui.png)
