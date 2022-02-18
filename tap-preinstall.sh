@@ -24,11 +24,7 @@ export TAP_VERSION=1.0.1
 #######
 
 
-
 # Get Pivnet CLI
-#mkdir -p "$HOME/tanzu"
-#cd "$HOME/tanzu"
-#echo pwd
 
 echo Downloading Pivnet CLI
 wget wget https://github.com/pivotal-cf/pivnet-cli/releases/download/v3.0.1/pivnet-linux-amd64-3.0.1
@@ -86,7 +82,7 @@ echo Installing Tanzu Cluster Essentials
 export INSTALL_BUNDLE=$INSTALL_BUNDLE
 export INSTALL_REGISTRY_HOSTNAME=$INSTALL_REGISTRY_HOSTNAME
 export INSTALL_REGISTRY_USERNAME=$TANZU_NETWORK_USER
-export INSTALL_REGISTRY_PASSWORD=$TANZU_NETWOR_PASSWORD
+export INSTALL_REGISTRY_PASSWORD=$TANZU_NETWORK_PASSWORD
 cd $HOME/tanzu-cluster-essentials
 
 # Display current kubernetes context
@@ -99,7 +95,7 @@ echo
 if [[ $REPLY =~ ^[Yy]$ ]]
 then
      echo Running Tanzu Cluster Essentials Install Script
-     cd $HOME/tanzu-cluster/essentials
+     cd $HOME/tanzu-cluster-essentials
      ./install.sh
 else
      echo Please Use kubectl config use-context to set the correct cluster to install TAP on and re-run script
@@ -108,11 +104,11 @@ fi
 
 # Copy Kapp binary
 echo Copying kapp to /usr/local/bin
-cp $HOME/tanzu-cluster/essentials/kapp /usr/local/bin/kapp
+cp $HOME/tanzu-cluster-essentials/kapp /usr/local/bin/kapp
 
 # Download Tanzu Application Platform Tanzu CLI
 echo Downloading Tanzu Application Platform
-pivnet download-product-files --product-slug='tanzu-application-platform' --release-version='1.0.1' --product-file-id=1147349
+pivnet download-product-files --product-slug='tanzu-application-platform' --release-version='1.0.1' --product-file-id=1156163
 
 # Make Tanzu Directory and untar Tanzu Application Platform
 sudo -u $un mkdir $HOME/tanzu
@@ -160,6 +156,5 @@ tanzu package repository add tanzu-tap-repository \
 echo Verify TAP Repository
 tanzu package repository get tanzu-tap-repository --namespace tap-install
 echo List Available Packages
-tanzu package avaiable list --namespace tap-install
-
+tanzu package available list --namespace tap-install
 echo Prep work is complete.  You are now ready to install TAP!!!
