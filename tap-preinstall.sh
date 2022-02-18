@@ -42,10 +42,10 @@ done
 
 echo Login to Pivnet and accept EULA
 pivnet login --api-token $PIVNET_API_TOKEN
-#pivnet accept-eula  --product-slug='tanzu-cluster-essentials' --release-version='1.0.0'
-#pivnet accept-eula  --product-slug='tanzu-application-platform' --release-version='1.0.1'
-#pivnet accept-eula  --product-slug='build-service' --release-version='1.4.2'
-#pivnet accept-eula  --product-slug='tbs-dependencies' --release-version='100.0.250'
+pivnet accept-eula  --product-slug='tanzu-cluster-essentials' --release-version='1.0.0'
+pivnet accept-eula  --product-slug='tanzu-application-platform' --release-version='1.0.1'
+pivnet accept-eula  --product-slug='build-service' --release-version='1.4.2'
+pivnet accept-eula  --product-slug='tbs-dependencies' --release-version='100.0.250'
 
 # Clean up old version
 
@@ -55,12 +55,12 @@ if [[ $REPLY =~ ^[Yy]$ ]]
 then
 
 echo "Cleaning Up ond Tanzu CLI Installation"
-#rm -rf $HOME/tanzu/cli
-#rm /usr/local/bin/tanzu
-#rm -rf ~/.config/tanzu/
-#rm -rf ~/.tanzu/
-#rm -rf ~/.cache/tanzu
-#rm -rf ~/Library/Application\ Support/tanzu-cli/* # Remove plug-ins
+rm -rf $HOME/tanzu/cli
+rm /usr/local/bin/tanzu
+rm -rf ~/.config/tanzu/
+rm -rf ~/.tanzu/
+rm -rf ~/.cache/tanzu
+rm -rf ~/Library/Application\ Support/tanzu-cli/* # Remove plug-ins
 
 fi
 
