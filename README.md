@@ -8,6 +8,7 @@ Note this repo is meant to supplement the [Official VMware documentation](https:
 
 ## Prerequisites
 - Kubernetes cluster running compliant Kubernetes versions 1.20, 1.21 or 1.22
+- Set kubectl context to cluster you want TAP installed on `kubectl config use-context {cluster}`
 - Github, Gitlab or Azure Devops
 - Available Registry (Docker hub, Harbor, jFrog, etc)
 - DNS records for tap-gui.fqdn.com and *.cnrs.fqdn.com
@@ -15,6 +16,15 @@ Note this repo is meant to supplement the [Official VMware documentation](https:
 - Ability to access projects.registry.vmware.com
 
 All Commands below are for Linux.  You can find MacOS and Windows (where available) commonds on official docs
+
+## Optional Script for Linux
+
+- Script will handle downloading and configuration of all components and prework
+- Final [Install of TAP](#install-tap-profile-and-tap) and values.yaml configuration is manual and should be completed after script is successful
+
+### Using Script
+- Update Variables section of the script with the appropriate values
+- Execute the script using sudo `sudo ./tap-preinstall.sh`
 
 ## Download Pivnet CLI to accept EULA and download packages (can also download from network.pivotal.com)
 
@@ -126,7 +136,7 @@ REASON:
 6. List available packages
 `tanzu package avaiable list --namespace tap-install`
 
-## Instal TAP Profile
+## Install TAP Profile and TAP
 
 Tap can be installed using a Full Profile or Light Profile.  Read more about the difference and see example value.yaml, variables definitions and other helpful info in the [Documentation](https://docs.vmware.com/en/Tanzu-Application-Platform/1.0/tap/GUID-install.html#install-your-tanzu-application-platform-profile-1)
 
@@ -213,6 +223,11 @@ Have also seen https://localhost:7001/api/auth/okta/handler/frame and https://lo
 `tanzu package installed get tap -n tap-install`
 3. Verify all necessary packages have been installed
 `tanzu package installed list -A`
+
+### Update existing configuration
+
+If you change / add items in your values.yaml you can update an existing install 
+` tanzu package installed update tap --version $TAP_VERSION -f tap-light-values.yaml -n tap-install`
 
 ## Access Tap-GUI
 
