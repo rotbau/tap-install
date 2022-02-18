@@ -123,4 +123,93 @@ TAG:           1.0.1
 STATUS:        Reconcile succeeded
 REASON:
 ```
+6. List available packages
+`tanzu package avaiable list --namespace tap-install`
 
+## Instal TAP Profile
+
+Tap can be installed using a Full Profile or Light Profile.  Read more about the difference and see example value.yaml, variables definitions and other helpful info in the [Documentation](https://docs.vmware.com/en/Tanzu-Application-Platform/1.0/tap/GUID-install.html#install-your-tanzu-application-platform-profile-1)
+
+### Customizations
+
+I'm using the Light Profile.  My [example values.yaml](tap-light-values.yaml) contains customizations.  I will discuss these more later.
+- Contour for Ingress
+- TLS for tap-gui using Letsencrypt
+- CNRS domain which will automatically be appended to my applications I publish using ingress
+- OKTA integration for Authentication
+
+1. Add Contour for Ingress
+```
+contour:
+  envoy:
+    service:
+      type: LoadBalancer
+```
+2. TLS for tap-gui using Letsencrypt
+
+Get Cert and base 64 encode:
+```
+sudo certbot certonly --manual --prefered-challanges=dns --email email@example.com --server https://acme-v02.api.letsencrypt.org/directory --agree-tos -d tap-gui.example.com
+base64 -w 0 fullchain.pem > /home/user/tap/fullchainb64.txt
+base64 -w 0 privkey.pem > /hom/user/tap/keyb64.txt
+```
+
+Create TLS Secret on K8s Cluster:
+```
+apiVersion: v1
+kind: Secret
+metadata:
+  name: tap-gui
+  namespace: tap-install
+data:
+  tls.crt: “base64 of /etc/letsencrypt/tap-gui.example.com/fullchain.pem”
+  tls.key: “base64 of /etc/letsencrptlive/tap-gui.example.com/privkey.pem”
+type: kubernetes.io/tls
+```
+
+Configure TAP GUI in values.yaml for TLS
+```
+tap_gui:
+  service_type: ClusterIP
+  ingressEnabled: "true"
+  ingressDomain: "vtechk8s.com"
+  tls:
+    namespace: tap-gui
+    secretName: tap-gui
+```
+3. CNRS entry for domain suffix and automatic Ingress to deployed Application
+
+Note: This will need to be done AFTER Tap in installed
+`kubectl get svc -n tanzu-system-ingress`
+Note IP of envoy service.  This should have an IP from your Cloud Provider or LB Provider
+Create a DNS record for *.cnrs.example.com pointing to this record
+Published apps will have format of app.cnrs.example.com and ingress will automatically send traffic to your application
+4. OKTA Configuration
+- Create new application in OKTA: type=Web
+- Grant Types: Client Credentials, Authorization Token, Refresh Token
+- Refresh Token Behavior: I have Use Persistent Token
+- User Consent: I have Require Consent
+- Login - This can be mostly anything.  However you HAVE to match traffic type.  If you are using TLS this needs to start with https: or if not enabling TLS need to start with http:
+```
+sign-in redirect URIs https://tap-gui.example.com/api/auth/okta/handler/frame
+sign-out redirect URIs https://tap-gui.example.com
+```  
+Have also seen https://localhost:7001/api/auth/okta/handler/frame and https://localhost:7001  These values only need to be reachable by the client browser.
+- Assign users
+- Client ID, Client Secret and Okta Domain from the General Tap of the Application will be used in values.yaml
+```
+      providers:
+        okta:
+          development:
+            clientId: [redacted]
+            clientSecret: [redacted]
+            audience: https:/[redacted].okta.com
+```
+### Install TAP
+
+1. After configuring your values.yaml install TAP
+`tanzu package install tap -p tap.tanzu.vmware.com -v $TAP_VERSION --values-file tap-light-values.yaml -n tap-install`
+2. Verify package install may take 5-10 minutes
+`tanzu package installed get tap -n tap-install`
+3. Verify all necessary packages have been installed
+`tanzu package installed list -A`
