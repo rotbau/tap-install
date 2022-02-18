@@ -213,3 +213,9 @@ Have also seen https://localhost:7001/api/auth/okta/handler/frame and https://lo
 `tanzu package installed get tap -n tap-install`
 3. Verify all necessary packages have been installed
 `tanzu package installed list -A`
+
+## Access Tap-GUI
+
+1. TAP GUI should now be available from the FQDN specificed in the base url setting in values.yaml, tap-gui.example.com 
+
+(/assets/tap-gui.png)
