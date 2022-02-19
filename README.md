@@ -64,7 +64,7 @@ cd $HOME/tanzu-cluster-essentials
 Note: Tanzu CLI for Tanzu Application Platform may conflict with other version of Tanzu CLI used for TKG.  You may want to use a separate jumpbox or profile for TAP.  [See how to remove other versions](https://docs.vmware.com/en/Tanzu-Application-Platform/1.0/tap/GUID-uninstall.html#remove-tanzu-cli) of Tanzu CLI, Plug-ins and files.  If you are updating from an older version of TAP [reference here](https://docs.vmware.com/en/Tanzu-Application-Platform/1.0/tap/GUID-install-general.html#cli-plugin-clean-install) to see how to update CLI
 
 1. Download Tanzu CLI for your OS. 
-`pivnet download-product-files --product-slug='tanzu-application-platform' --release-version='1.0.1' --product-file-id=1147349`
+`pivnet download-product-files --product-slug='tanzu-application-platform' --release-version='1.0.1' --product-file-id=1156163`
 2. Install CLI
 ```
 mkdir $HOME/tanzu
