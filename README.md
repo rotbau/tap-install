@@ -21,6 +21,7 @@ All Commands below are for Linux.  You can find MacOS and Windows (where availab
 
 - Script will handle downloading and configuration of all components and prework
 - Final [Install of TAP](#install-tap-profile-and-tap) and values.yaml configuration is manual and should be completed after script is successful
+- NOTE:  If you use the script [skip down to the Install of TAP](#install-tap-profile-and-tap) section.  Everything else is complete.
 
 ### Using Script
 - Update Variables section of the script with the appropriate values
