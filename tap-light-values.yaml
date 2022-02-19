@@ -3,7 +3,7 @@ ceip_policy_disclosed: true # Installation fails if this is set to 'false'
 
 buildservice:
   kp_default_repository: "harbor.example.com/tap/build-service"
-  kp_default_repository_username: "repo-username"
+  kp_default_repository_username: "repo-username" 
   kp_default_repository_password: "repo-password"
   tanzunet_username: "tanzunetuser@example.com"
   tanzunet_password: "tanzunetpassword"
@@ -38,7 +38,7 @@ tap_gui:
     catalog:
       locations:
         - type: url
-          target: https://github.com/user/tap-install/blank/catalog-info.yaml
+          target: https://github.com/{gituser}/tap-install/blank/catalog-info.yaml
     backend:
       baseUrl: https://tap-gui.example.com
       cors:
@@ -50,7 +50,7 @@ tap_gui:
           development:
             clientId: [redacted]
             clientSecret: [redacted]
-            audience: https:/[redacted].okta.com
+            audience: https://[redacted].okta.com
 
 metadata_store:
   app_service_type: LoadBalancer # (optional) Defaults to LoadBalancer. Change to NodePort for distributions that don't support LoadBalancer

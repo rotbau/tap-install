@@ -15,13 +15,12 @@ Note this repo is meant to supplement the [Official VMware documentation](https:
 - Pivnet login and/or API key
 - Ability to access projects.registry.vmware.com
 
-All Commands below are for Linux.  You can find MacOS and Windows (where available) commonds on official docs
+All Commands below are for Linux.  You can find MacOS and Windows (where available) commands on official docs
 
 ## Optional Script for Linux
 
-- Script will handle downloading and configuration of all components and prework
-- Final [Install of TAP](#install-tap-profile-and-tap) and values.yaml configuration is manual and should be completed after script is successful
-- NOTE:  If you use the script [skip down to the Install of TAP](#install-tap-profile-and-tap) section.  Everything else is complete.
+- Script will handle installing tanzu-cluster-essentials, Tanzu CLI, and Tanzu Application Packages.  It does not install Tanzu Application Platform
+- Final Install of Tanzu Application Platform is done manually and is detailed in [Install of Tap Profile and Tap section](#install-tap-profile-and-tap).  You will need to create a values.yaml file and run the final TAP install.  Skip down to [Install of Tap Profile and TAP section](#install-tap-profile-and-tap) after the script completes.
 
 ### Using Script
 - Update Variables section of the script with the appropriate values
@@ -96,7 +95,7 @@ accelerator         Manage accelerators in a Kubernetes cluster                 
 apps                Applications on Kubernetes                                         Standalone             v0.4.1   installed
 services            Discover Service Types and manage Service Instances (ALPHA)        Standalone             v0.1.1   installed
 ```
-## Install Tanzu Application Package
+## Install Tanzu Application Packages
 1. Add TAP package repository and version.
 ```
 export INSTALL_REGISTRY_USERNAME=tanzunetuser@example.com

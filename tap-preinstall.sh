@@ -12,9 +12,9 @@
 # Update API Token, Tanzu Network User and Password with your information.  The Install Bundle, Registry and TAP Version may need to be changed as new versions are released
 ########
 
-export PIVNET_API_TOKEN=changeme
-export TANZU_NETWORK_USER=changeme
-export TANZU_NETWORK_PASSWORD="changeme"
+export PIVNET_API_TOKEN={changeme}
+export TANZU_NETWORK_USER={changeme}
+export TANZU_NETWORK_PASSWORD="{changeme}"
 export INSTALL_BUNDLE=registry.tanzu.vmware.com/tanzu-cluster-essentials/cluster-essentials-bundle@sha256:82dfaf70656b54dcba0d4def85ccae1578ff27054e7533d08320244af7fb0343
 export INSTALL_REGISTRY_HOSTNAME=registry.tanzu.vmware.com
 export TAP_VERSION=1.0.1
