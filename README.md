@@ -226,8 +226,49 @@ Have also seen https://localhost:7001/api/auth/okta/handler/frame and https://lo
 
 ### Update existing configuration
 
-If you change / add items in your values.yaml you can update an existing install 
-` tanzu package installed update tap --version $TAP_VERSION -f tap-light-values.yaml -n tap-install`
+Look at pre-requsites, may need to upgrade tanzu cli and/or cluster providers prior to moving to steps below.
+
+1. View current install status
+```
+ tanzu package available list tap-gui.tanzu.vmware.com -n tap-install
+```
+2. Get current repository information
+```
+tanzu package repository get tanzu-tap-repository --namespace tap-install
+```
+3. Set Registry from either the value set above or to your custom registry
+```
+tanzu package repository add tanzu-tap-repository --url registry.tanzu.vmware.com/tanzu-application-platform/tap-packages:1.2.1 --namespace tap-install
+```
+4. Run Upgrade.  Either set TAP_VERSION as variable or add something like 1.2.1
+```
+tanzu package installed update tap --version $TAP_VERSION -f tap-light-values.yaml -n tap-install
+```
+
+## Update LetsEncrypt Cert for Tap-Gui
+
+1. Update certificates
+```
+sudo certbot certonly --manual --preferred-challenges=dns --email null@dev.com --server https://acme-v02.api.letsencrypt.org/directory --agree-tos -d tap-gui.vtechk8s.com
+```
+2. Base64 encode the fullchain.pem and privkey.pem to files
+```
+base64 -w 0 fullchain.pem > fullchainb64.pem
+base64 -w 0 privkey.pem > privkeyb64.pem
+```
+3. Create Secret manifest to update existing tap-gui secret with new values
+```
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: tap-gui
+  namespace: tap-gui
+data:
+  tls.crt: "LS0tLS1CRUdJTiB.........."
+  tls.key: "LS0tLS1CRUdJTiB.........."
+type: kubernetes.io/tls
+```
 
 ## Access Tap-GUI
 
