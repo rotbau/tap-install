@@ -19,12 +19,12 @@ All Commands below are for Linux.  You can find MacOS and Windows (where availab
 
 ## Optional Script for Linux
 
-- Script will handle installing tanzu-cluster-essentials, Tanzu CLI, and Tanzu Application Packages.  It does not install Tanzu Application Platform
+- The tap-preinstall-x-x-x.sh script will handle installing tanzu-cluster-essentials, Tanzu CLI, and Tanzu Application Packages.  It does not install Tanzu Application Platform.  Script was tested on linux and may need to be adjusted for macos.
 - Final Install of Tanzu Application Platform is done manually and is detailed in [Install of Tap Profile and Tap section](#install-tap-profile-and-tap).  You will need to create a values.yaml file and run the final TAP install.  Skip down to [Install of Tap Profile and TAP section](#install-tap-profile-and-tap) after the script completes.
 
 ### Using Script
 - Update Variables section of the script with the appropriate values
-- Execute the script using sudo `sudo ./tap-preinstall.sh`
+- Execute the script using sudo `sudo ./tap-preinstall-x-x-x.sh`
 
 ## Manual Prep Steps if not using script - updated for 1.3.2
 
