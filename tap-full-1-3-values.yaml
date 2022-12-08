@@ -1,0 +1,90 @@
+# Can take iterate, build, run, view.
+profile: full
+
+# Avoiding bug in 1.3.0 installation
+excluded_packages:
+- policy.apps.tanzu.vmware.com
+
+# Installation fails if set to false
+ceip_policy_disclosed: true
+
+# Values needed by multiple packages
+shared:
+  ingress_domain: example.com
+
+# Values for buildservice
+buildservice:
+  kp_default_repository: "harbor.example.com/tap/build-service"
+  kp_default_repository_username: '[redacted]'
+  kp_default_repository_password: "[redacted]"
+  tanzunet_username: "email@example.com"
+  tanzunet_password: "[redacted]"
+
+# Can take testing, testing_scanning.
+supply_chain: basic
+
+# Name below changes according to what you chose in supply_chain
+ootb_supply_chain_basic:
+  registry:
+    server: "harbor.example.com"
+    repository: "tap/supply-chain"
+  gitops:
+    ssh_secret: ""
+
+tap_gui:
+  # If the shared.ingress_domain is set as above, this must be set to ClusterIP.
+  service_type: ClusterIP
+  ingressEnabled: "true"
+  ingressDomain: "example.com"
+  tls:
+    namespace: tap-install
+    secretName: tap-gui
+  app_config:
+#    proxy:
+#      /metadata-store:
+#        target: https://metadata-store-app.metadata-store:8443/api/v1
+#        changeOrigin: true
+#        secure: false
+#        headers:
+    app:
+      baseUrl: https://tap-gui.example.com
+
+    auth:
+      environment: development
+      providers:
+        okta:
+          development:
+            clientId: [redacted]
+            clientSecret: [redacted]]
+            audience: https://dev-12345678.okta.com
+    catalog:
+      rules:
+       - allow: [ Component, Domain, System, API, Group, User, Resource, Location, Template ]
+      locations:
+       - type: url
+         target: https://github.com/[username]/tap-catalog/catalog-info.yaml
+    backend:
+      baseUrl: https://tap-gui.example.com
+      cors:
+        origin: https://tap-gui.example.com
+
+metadata_store:
+  ns_for_export_app_cert: "apps"
+  app_service_type: ClusterIP
+  ingress_enabled: "true"
+
+grype:
+  namespace: "apps" # optional defaults to default namespace if not defined.  namespace defined here needs to exist
+  targetImagePullSecret: "tap-registry"
+
+scanning:
+  metadataStore:
+    url: ""
+
+cnrs:
+  domain_name: cnrs.example.com
+
+contour:
+  envoy:
+    service:
+      type: LoadBalancer
